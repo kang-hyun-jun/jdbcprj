@@ -25,11 +25,6 @@ public class Program4 {
 
         int result = st.executeUpdate();//이미 PreparedStatement에서 sql을 가지고 있기에 sql을 다시 넘겨 주지 않는다.
         System.out.println(result);
-
-
-
-
-
         st.close();
         con.close();
     }
