@@ -5,6 +5,7 @@ import com.doje.app.service.NoticeService;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Scanner;
 
 public class NoticeConsole {
 
@@ -28,6 +29,10 @@ public class NoticeConsole {
     }
     public int inputNoticeMenu()
     {
-        return 0;
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("1.상세조회/ 2.이전/ 3.다음/ 4.글쓰기/ 5.종료 >");
+        String menu_string= scanner.nextLine();
+        int menu_int = Integer.parseInt(menu_string);
+        return menu_int;
     }
 }
