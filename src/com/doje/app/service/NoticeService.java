@@ -38,7 +38,7 @@ public class NoticeService {
         rs.close();
         st.close();
         con.close();
-        return null;
+        return list;
     }
     public int insert(Notice notice) throws ClassNotFoundException, SQLException
     {

@@ -1,6 +1,5 @@
-//SQL DB에 데이터를 삽입하는 코드 (INSERT)
+package programs;//SQL DB에 데이터를 삽입하는 코드 (INSERT)
 import java.sql.*;
-import java.util.Date;
 
 public class Program2 {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {

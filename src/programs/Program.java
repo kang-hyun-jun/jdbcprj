@@ -1,4 +1,4 @@
-//SQL DB에서 저장되어있는 데이터를 가져오는 코드(SELECT)
+package programs;//SQL DB에서 저장되어있는 데이터를 가져오는 코드(SELECT)
 import java.sql.*;
 import java.util.Date;
 
