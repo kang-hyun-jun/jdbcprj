@@ -13,13 +13,17 @@ public class NoticeService {
     private String my_id = "NEWLEC";
     private String my_pwd = "khj0922.";
 
-    public List<Notice> getlist() throws ClassNotFoundException, SQLException {
-        String sql = "SELECT * FROM NOTICE";
+    public List<Notice> getlist(int page) throws ClassNotFoundException, SQLException {
+        int start = 1+(page-1)*10;
+        int end = start + 10;
+        String sql = "SELECT * FROM(SELECT ROWNUM NUM,N.* FROM (SELECT * FROM NOTICE ORDER BY REGDATE DESC) N)  WHERE NUM BETWEEN ? AND ?";
 
         Class.forName(driver);
         Connection con = DriverManager.getConnection(url,my_id,my_pwd);
-        Statement st = con.createStatement();
-        ResultSet rs = st.executeQuery(sql);
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setInt(1, start);
+        st.setInt(2, end);
+        ResultSet rs = st.executeQuery();
 
         List<Notice> list = new ArrayList<Notice>();
 
@@ -28,7 +32,7 @@ public class NoticeService {
             String title = rs.getString("TITLE");
             String writer_id = rs.getString("WRITER_ID");
             String content = rs.getString("CONTENT");
-            Date date = rs.getDate("REGATE");
+            Date date = rs.getDate("REGDATE");
             int hit = rs.getInt("HIT");
             String files = rs.getString("FILES");
             Notice notice = new Notice(id,title,writer_id,content,date,hit,files);
