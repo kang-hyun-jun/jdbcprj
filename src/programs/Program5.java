@@ -23,7 +23,13 @@ public class Program5 {
                     break;
                 case 4://글쓰기
                     break;
-                case 5:
+                case 5://글 검색
+                    console.search();
+                    break;
+                case 6://모두보기
+                    console.printNoticeAll();
+                    break;
+                case 7:
                     System.out.println("다음에 또 이용해 주세요~!");
                     break EXIT;
                 default:

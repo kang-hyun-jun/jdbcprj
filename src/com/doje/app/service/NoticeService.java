@@ -13,16 +13,17 @@ public class NoticeService {
     private String my_id = "NEWLEC";
     private String my_pwd = "khj0922.";
 
-    public List<Notice> getlist(int page) throws ClassNotFoundException, SQLException {
+    public List<Notice> getlist(int page,String search_method,String search_string) throws ClassNotFoundException, SQLException {
         int start = 1+(page-1)*10;
         int end = start + 10;
-        String sql = "SELECT * FROM NOTICE_VIEW WHERE NUM BETWEEN ? AND ?";
+        String sql = "SELECT * FROM NOTICE_VIEW WHERE "+search_method+" LIKE ? AND NUM BETWEEN ? AND ?";
 
         Class.forName(driver);
         Connection con = DriverManager.getConnection(url,my_id,my_pwd);
         PreparedStatement st = con.prepareStatement(sql);
-        st.setInt(1, start);
-        st.setInt(2, end);
+        st.setString(1,"%"+search_string+"%");
+        st.setInt(2, start);
+        st.setInt(3, end);
         ResultSet rs = st.executeQuery();
 
         List<Notice> list = new ArrayList<Notice>();
@@ -46,14 +47,17 @@ public class NoticeService {
     }
     public int getCount() throws ClassNotFoundException, SQLException {
         String sql = "SELECT COUNT(ID) COUNT FROM NOTICE";
-
+        int count = 0;
         Class.forName(driver);
         Connection con = DriverManager.getConnection(url,my_id,my_pwd);
         Statement st = con.createStatement();
         ResultSet rs = st.executeQuery(sql);
 
-        rs.next();
-        int count = rs.getInt("COUNT");
+        if(rs.next())
+        {
+            count = rs.getInt("COUNT");
+        }
+
 
         rs.close();
         st.close();
