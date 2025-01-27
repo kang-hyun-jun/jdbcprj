@@ -23,7 +23,7 @@ public class NoticeConsole {
 
     public void printNoticeList() throws SQLException, ClassNotFoundException {
         List<Notice> list = noticeService.getlist(page,search_method,search_string);
-        int count = noticeService.getCount();
+        int count = noticeService.getCount(page,search_method,search_string);
         int lastPage = (count - 1) / 10 + 1;
 
         System.out.print("─────────────────────────────────────────────\n");
@@ -58,7 +58,7 @@ public class NoticeConsole {
 
     }
     public void moveNextList() throws SQLException, ClassNotFoundException {
-        int count = noticeService.getCount();
+        int count = noticeService.getCount(page,search_method,search_string);
         int lastPage = (count - 1) / 10 + 1;
         if(page==lastPage)
         {
