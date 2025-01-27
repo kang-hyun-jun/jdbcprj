@@ -16,7 +16,7 @@ public class NoticeService {
     public List<Notice> getlist(int page,String search_method,String search_string) throws ClassNotFoundException, SQLException {
         int start = 1+(page-1)*10;
         int end = start + 9;
-        String sql = "SELECT * FROM NOTICE_VIEW WHERE "+search_method+" LIKE ? AND NUM BETWEEN ? AND ?";
+        String sql = "SELECT * FROM (SELECT ROWNUM NUM, N.* FROM (SELECT * FROM NOTICE WHERE "+ search_method+" LIKE ? ORDER BY REGDATE DESC) N) WHERE NUM BETWEEN ? AND ?";
 
         Class.forName(driver);
         Connection con = DriverManager.getConnection(url,my_id,my_pwd);

@@ -102,6 +102,7 @@ public class NoticeConsole {
         }
         System.out.print("검색할 내용을 입력하세요. >");
         search_string = scanner.nextLine();
+        page=1;//검색 시 첫 페이지로 이동;
         System.out.print("─────────────────────────────────────────────\n");
     }
 }
