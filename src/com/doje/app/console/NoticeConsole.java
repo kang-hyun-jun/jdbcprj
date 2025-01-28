@@ -13,28 +13,53 @@ public class NoticeConsole {
     private int page;
     private String search_string;
     private String search_method;
+    private int detaile_id;
 
     public NoticeConsole() {
         this.noticeService = new NoticeService();
         this.page = 1;
         this.search_string = "";
         this.search_method = "TITLE";
+        this.detaile_id = -1;
     }
 
     public void printNoticeList() throws SQLException, ClassNotFoundException {
-        List<Notice> list = noticeService.getlist(page,search_method,search_string);
+        List<Notice> list;
         int count = noticeService.getCount(page,search_method,search_string);
+        if(detaile_id==-1)
+        {
+            list = noticeService.getlist(page,search_method,search_string);
+        }
+        else
+        {
+            count =1;
+            list = noticeService.getlist(page,detaile_id);
+        }
+
         int lastPage = (count - 1) / 10 + 1;
 
         System.out.print("─────────────────────────────────────────────\n");
         System.out.printf("<공지사항> 총 %d 게시글\n",count);
         System.out.print("─────────────────────────────────────────────\n");
         for(Notice notice : list) {
-            System.out.printf("%d. %s / %s / %s \n",notice.getId(),notice.getTitle(),notice.getWriter_id(),notice.getDate());
+            if(detaile_id==-1)
+            {
+                System.out.printf("%d. %s / %s / %s \n",notice.getId(),notice.getTitle(),notice.getWriter_id(),notice.getDate());
+            }
+            else
+            {
+                System.out.println("              <<상세조회 내역>> ");
+                System.out.printf("%d. %s \n",notice.getId(),notice.getTitle());
+                System.out.printf("[작성자] : %s \n",notice.getWriter_id());
+                System.out.printf("%s \n",notice.getContent());
+                System.out.printf("[작성일자] : %s \n",notice.getDate());
+                System.out.printf("[조회수] : %s \n",notice.getHit());
+                System.out.printf("[첨부파일] : %s \n",notice.getFiles());
+            }
         }
         System.out.print("─────────────────────────────────────────────\n");
         System.out.printf("              %d/%d pages\n",page,lastPage);
-
+        detaile_id=-1;
     }
     public int inputNoticeMenu()
     {
@@ -72,6 +97,7 @@ public class NoticeConsole {
     public void printNoticeAll()
     {
         this.search_string = "";
+        page = 1;
     }
     public void search()
     {
@@ -104,5 +130,44 @@ public class NoticeConsole {
         search_string = scanner.nextLine();
         page=1;//검색 시 첫 페이지로 이동;
         System.out.print("─────────────────────────────────────────────\n");
+    }
+    public void printNoticeDetaile() throws SQLException, ClassNotFoundException {
+        Scanner scanner = new Scanner(System.in);
+        String detaile_string;
+        int detaile_int =-1;
+        EXIT:while(true)
+        {
+            EXIT1:while(true)
+            {
+                System.out.print("─────────────────────────────────────────────\n");
+                System.out.print("상세조회 하고 싶은 글의 ID를 입력하세요.>");
+                detaile_string = scanner.nextLine();
+                try{
+                    detaile_int = Integer.parseInt(detaile_string);
+                    break EXIT1;
+                }
+                catch (NumberFormatException ex){
+                    System.out.println("===========================");
+                    System.out.println("올바른 id를 선택하세요.");
+                    System.out.println("===========================");
+
+                }
+            }
+            if(!(noticeService.searchTo_id(detaile_int)))
+            {
+                System.out.println("===========================");
+                System.out.println("해당 id의 게시물은 존재하지 않습니다.");
+                System.out.println("===========================");
+                break EXIT;
+            }
+            else
+            {
+                this.detaile_id=detaile_int;
+                page=1;
+                break EXIT;
+            }
+        }
+
+
     }
 }

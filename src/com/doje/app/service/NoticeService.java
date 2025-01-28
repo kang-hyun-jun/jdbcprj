@@ -45,6 +45,36 @@ public class NoticeService {
         con.close();
         return list;
     }
+    public List<Notice> getlist(int page,int detaile_id) throws ClassNotFoundException, SQLException {
+        int start = 1+(page-1)*10;
+        int end = start + 9;
+        String sql = "SELECT * FROM NOTICE WHERE ID = ?";
+
+        Class.forName(driver);
+        Connection con = DriverManager.getConnection(url,my_id,my_pwd);
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setInt(1, detaile_id);
+        ResultSet rs = st.executeQuery();
+
+        List<Notice> list = new ArrayList<Notice>();
+
+        while(rs.next()) {
+            int id = rs.getInt("ID");
+            String title = rs.getString("TITLE");
+            String writer_id = rs.getString("WRITER_ID");
+            String content = rs.getString("CONTENT");
+            Date date = rs.getDate("REGDATE");
+            int hit = rs.getInt("HIT");
+            String files = rs.getString("FILES");
+            Notice notice = new Notice(id,title,writer_id,content,date,hit,files);
+            list.add(notice);
+        }
+
+        rs.close();
+        st.close();
+        con.close();
+        return list;
+    }
     public int getCount(int page,String search_method,String search_string) throws ClassNotFoundException, SQLException {
         String sql = "SELECT COUNT(ID) COUNT FROM(SELECT * FROM NOTICE_VIEW WHERE "+search_method+" LIKE ?)";
         int count = 0;
@@ -59,12 +89,32 @@ public class NoticeService {
         {
             count = rs.getInt("COUNT");
         }
-
-
         rs.close();
         st.close();
         con.close();
         return count;
+    }
+    public boolean searchTo_id(int id) throws ClassNotFoundException, SQLException {
+    String sql = "SELECT * FROM NOTICE WHERE ID = ?";
+
+        Class.forName(driver);
+        Connection con = DriverManager.getConnection(url,my_id,my_pwd);
+        PreparedStatement st = con.prepareStatement(sql);
+        st.setInt(1, id);
+        ResultSet rs = st.executeQuery();
+
+        while (rs.next())
+        {
+            if(id==rs.getInt("ID"))
+            {
+                return true;
+            }
+        }
+
+        rs.close();
+        st.close();
+        con.close();
+        return false;
     }
     public int insert(Notice notice) throws ClassNotFoundException, SQLException
     {

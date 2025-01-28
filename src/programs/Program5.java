@@ -14,6 +14,7 @@ public class Program5 {
             int menu = console.inputNoticeMenu();
             switch (menu) {
                 case 1://상세조회
+                    console.printNoticeDetaile();
                     break;
                 case 2://이전
                     console.movePrevList();
@@ -33,7 +34,7 @@ public class Program5 {
                     System.out.println("다음에 또 이용해 주세요~!");
                     break EXIT;
                 default:
-                    System.out.println("<<사용 방법>> 1~4사이의 숫자를 입력해 주세요");
+                    System.out.println("<<사용 방법>> 1~7사이의 숫자를 입력해 주세요");
                     break;
 
             }
