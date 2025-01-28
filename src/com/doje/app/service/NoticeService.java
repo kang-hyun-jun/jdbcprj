@@ -1,5 +1,6 @@
 package com.doje.app.service;
 
+import com.doje.app.OracleINfo;
 import com.doje.app.entity.Notice;
 
 import java.sql.*;
@@ -8,10 +9,11 @@ import java.util.Date;
 import java.util.List;
 
 public class NoticeService {
-    private String url = "jdbc:oracle:thin:@localhost:1521/xepdb1";
-    private String driver = "oracle.jdbc.driver.OracleDriver";
-    private String my_id = "NEWLEC";
-    private String my_pwd = "khj0922.";
+    private OracleINfo oracle;
+    private String url = OracleINfo.getUrl();
+    private String driver = OracleINfo.getDriver();
+    private String my_id = OracleINfo.getMy_id();
+    private String my_pwd = OracleINfo.getMy_pwd();
 
     public List<Notice> getlist(int page,String search_method,String search_string) throws ClassNotFoundException, SQLException {
         int start = 1+(page-1)*10;

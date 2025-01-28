@@ -167,7 +167,48 @@ public class NoticeConsole {
                 break EXIT;
             }
         }
-
-
     }
+    public void writer() throws SQLException, ClassNotFoundException {
+        Scanner scanner = new Scanner(System.in);
+        String title_string;
+        String writerid_string;
+        String content_string;
+        String files_string;
+        System.out.print("─────────────────────────────────────────────\n");
+        EXIT:while(true) {
+            System.out.print("글의 제목을 입력하세요.>");
+            title_string = scanner.nextLine();
+            if(title_string.equals("")) {
+                System.out.print("글의 제목은 필수로 입력해야 합니다.>");
+            }
+            else { break EXIT; }
+        }
+        EXIT:while(true) {
+            System.out.print("글의 내용을 입력하세요.>");
+            content_string = scanner.nextLine();
+            if(content_string.equals("")) {
+                System.out.print("글의 내용은 필수로 입력해야 합니다.>");
+            }
+            else { break EXIT; }
+        }
+        EXIT:while(true) {
+            System.out.print("작성자의 ID를 입력하세요.>");
+            writerid_string = scanner.nextLine();
+            if(writerid_string.equals("")) {
+                System.out.print("작성자의 ID는 필수로 입력해야 합니다.>");
+            }
+            else { break EXIT; }
+        }
+        System.out.print("첨부할 파일을 입력하세요.>");
+        files_string = scanner.nextLine();
+
+        Notice notice = new Notice();
+        notice.setTitle(title_string);
+        notice.setContent(content_string);
+        notice.setWriter_id(writerid_string);
+        notice.setFile(files_string);
+        noticeService.insert(notice);
+
+
+        }
 }

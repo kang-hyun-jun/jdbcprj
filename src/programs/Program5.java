@@ -23,6 +23,7 @@ public class Program5 {
                     console.moveNextList();
                     break;
                 case 4://글쓰기
+                    console.writer();
                     break;
                 case 5://글 검색
                     console.search();
